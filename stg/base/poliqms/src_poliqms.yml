@@ -1,0 +1,22 @@
+version: 
+
+sources:
+  - name: poliqms
+    database: landing_db
+    schema: poliqms
+    tables:
+      - name: aka
+      - name: arcusto
+      - name: arinvoice
+      - name: arinvoice_detail
+      - name: arinvt
+      - name: arinvt_group
+      - name: bill_to
+      - name: cashrec
+      - name: orders
+      - name: ord_detail
+      - name: releases
+      - name: shipments
+      - name: shipment_dtl
+      - name: ship_to
+      

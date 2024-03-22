@@ -1,0 +1,100 @@
+with src as (
+    select 
+        *   
+         ,'{{source('ukg','employeedetails')}}' as etl_src_table_name
+         ,'UKG'                                 as source_system
+         ,sysdate()                             as elt_load_datetime
+    from {{source('ukg','employeedetails')}}
+)
+,deduped as (
+    select
+        *,
+        row_number() over (partition by employeeid order by originalhiredate desc) row_nbr
+    from src
+),batch_id as (
+select uuid_string() as batch_id
+)
+select
+	companyid,
+	companycode,
+	companyname,
+	employeeid,
+	jobdescription,
+	paygroupdescription,
+	primaryjobcode,
+	orglevel1code,
+	orglevel2code,
+	orglevel3code,
+	orglevel4code,
+	originalhiredate,
+	lasthiredate,
+	fulltimeorparttimecode,
+	primaryworklocationcode,
+	languagecode,
+	primaryprojectcode,
+	workphonenumber,
+	workphoneextension,
+	workphonecountry,
+	dateinjob,
+	datelastworked,
+	dateofbenefitseniority,
+	dateofseniority,
+	deductiongroupcode,
+	earninggroupcode,
+	employeetypecode,
+	employeestatuscode,
+	employeenumber,
+	jobchangereasoncode,
+	jobtitle,
+	leavereasoncode,
+	supervisorid,
+	supervisorfirstname,
+	supervisorlastname,
+	autoallocate,
+	clockcode,
+	datelastpaydatepaid,
+	dateofearlyretirement,
+	dateoflocalunion,
+	dateofnationalunion,
+	dateofretirement,
+	dateofsuspension,
+	dateoftermination,
+	datepaidthru,
+	statusstartdate,
+	hiresource,
+	isautoallocated,
+	isautopaid,
+	ismultiplejob,
+	jobgroupcode,
+	mailstop,
+	oktorehire,
+	paygroup,
+	payperiod,
+	plannedleavereason,
+	positioncode,
+	salaryorhourly,
+	scheduledannualhrs,
+	scheduledfte,
+	scheduledworkhrs,
+	shift,
+	shiftgroup,
+	termreason,
+	terminationreasondescription,
+	termtype,
+	timeclockid,
+	unionlocal,
+	unionnational,
+	weeklyhours,
+	datetimecreated,
+	datetimechanged,
+	supervisoremployeenumber,
+	supervisorcoid,
+	supervisorcompanycode,
+	companyglsegment,
+	locationglsegment,
+    etl_src_table_name,
+ 	source_system,
+    elt_load_datetime,
+    batch_id
+from deduped left join batch_id 
+where row_nbr = 1

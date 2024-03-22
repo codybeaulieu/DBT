@@ -1,0 +1,18 @@
+version: 
+
+sources:
+  - name: secdeacom
+    database: landing_db
+    schema: secdeacom
+    tables:
+      - name: dmcats
+      - name: dmcats2
+      - name: dmgrp
+      - name: dmpr1
+      - name: dmprod
+      - name: dmunit
+      - name: dtord
+      - name: dttord
+      - name: dmbillship
+      - name: dmbill
+      - name: dmship

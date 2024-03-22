@@ -1,0 +1,15 @@
+version: 
+
+sources:
+  - name: cmlsyspro
+    database: landing_db
+    schema: cmlsyspro
+    tables:
+      - name: arcustomer
+      - name: sordetail
+      - name: sormaster
+      - name: "CusSorDetailMerch+"
+      - name: invmaster
+      - name: InvMaster+
+      - name: mdnmaster
+      - name: mdndetail

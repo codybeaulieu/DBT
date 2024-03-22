@@ -1,0 +1,10 @@
+version: 
+
+sources:
+  - name: amazons3
+    database: landing_db
+    schema: amazons3
+    tables:
+      - name: paycomjobopening
+      - name: ukgjobopening
+      

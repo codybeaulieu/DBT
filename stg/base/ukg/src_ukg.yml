@@ -1,0 +1,10 @@
+version: 
+
+sources:
+  - name: ukg
+    database: landing_db
+    schema: ukg
+    tables:
+      - name: employeedetails
+      - name: persondetails
+      
