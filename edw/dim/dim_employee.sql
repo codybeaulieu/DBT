@@ -1,0 +1,46 @@
+-- depends_on: {{ ref('elt_model_statistics') }}
+{{
+    config(
+        unique_key=['employee_sk','company_sk']
+    )
+}}
+select 
+	employee_sk,
+	company_sk,
+	source_system,
+	employee_id,
+	employee_user_name,
+	employee_first_name,
+	employee_middle_name,
+	employee_last_name,
+	employee_dob,
+	employee_gender,
+	employee_job_desc,
+	employee_org_level1,
+	employee_org_level2,
+	employee_org_level3,
+	employee_orig_hire_date,
+	employee_last_hire_date,
+	employee_full_time,
+	employee_primary_location,
+	employee_seniority_date,
+	employee_status,
+    employee_exempt_status,
+    employee_hourly_or_salary,
+	employee_job_change_code,
+	employee_job_title,
+	employee_leave_reason_code,
+	employee_supervisor_id,
+	employee_supervisor_first_name,
+	employee_supervisor_last_name,
+	employee_termination_date,
+	employee_status_start_date,
+	employee_position_code,
+	employee_shift,
+	employee_termination_reason,
+	employee_termination_desc,
+	employee_termination_type,
+	batch_id,
+	elt_load_datetime,
+	elt_process_datetime
+from {{ ref('elt_staging_dim_employee') }}
