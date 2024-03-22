@@ -1,0 +1,103 @@
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'Analytics'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'Solesis'
+
+# These configurations specify where dbt should look for different types of files.
+# The `source-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+
+seeds:
+  Analytics:
+    util:
+      +schema: UTIL
+      +docs:
+        show: true
+        node_color: "#734d26"     
+    ref:
+      +schema: REF
+      +docs:
+        show: true
+        node_color: "#bf8040"
+# Configuring models
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+
+# In this example config, we tell dbt to build all models in the example/ directory
+# as tables. These settings can be overridden in the individual model files
+# using the `{{ config(...) }}` macro.
+models:
+  +transient: false
+  Analytics:
+    # Config indicated by + and applies to all files under models/example/
+    stg:
+      +schema: STG
+      tags: 'stg'
+      base:
+        tags: 'stg_base'
+        materialized: view
+        +docs:
+          show: true
+          node_color: "#004d00"
+    elt:
+      +schema: ELT
+      tags: 'elt'
+      base_transient:
+        tags: 'elt_base_transient'
+        materialized:  table
+        +transient: true      
+      staging:
+        tags: 'elt_staging'
+        materialized: view
+      staging_transient: #use for transient/intermediate tables.  CREATED as TRANSIENT in Snowflake.
+        tags: 'elt_staging_transient'
+        materialized: table
+        +transient: true
+        dim:
+          tags: 'elt_staging_transient_dim'
+        fact:
+          tags: 'elt_staging_transient_fact'
+    edw:
+      +schema: EDW
+      +post-hook:
+        - "{{ ms_insert(this) }}"
+      tags: 'edw'
+      dim:
+        tags: 'edw_dim'
+        materialized: incremental
+        on_schema_change: append_new_columns
+        +docs:
+          show: true
+          node_color: "#ff8000"
+      fact:
+        tags: 'edw_fact'
+        materialized: incremental
+        on_schema_change: append_new_columns
+        +docs:
+          show: true
+          node_color: "#0052cc"
+
+      xref:
+        tags: 'edw_xref'
+        materialized: incremental
+        on_schema_change: append_new_columns
+      rpt:
+        tags: 'edw_rpt'
+        materialized: view
+
